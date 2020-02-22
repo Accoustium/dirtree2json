@@ -114,7 +114,7 @@ pyvenv.cfg
 .env
 .venv
 env/
-venv/
+venv_dirtree2json/
 ENV/
 env.bak/
 venv.bak/
