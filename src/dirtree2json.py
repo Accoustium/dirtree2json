@@ -16,7 +16,7 @@ class Tree:
             if os.path.isdir(source):
                 self.source = source
                 self.tree = {}
-                self.curr_dir = os.getcwd()
+                self.walk_tree()
             else:
                 raise SyntaxError
         else:
@@ -28,25 +28,19 @@ class Tree:
     def __str__(self):
         return f"{self.tree}"
 
-    def __walk_path(self) -> list:
-        path_list = os.listdir()
+    def __walk_path(self, source_path: str) -> list:
+        path_list = os.listdir(source_path)
         for index, file_dir in enumerate(path_list):
             if os.path.isdir(file_dir):
-                os.chdir(file_dir)
                 path_list[index] = {
-                    file_dir: self.__walk_path()
+                    file_dir: self.__walk_path(
+                        os.path.join(source_path, file_dir)
+                    )
                 }
-                os.chdir('..')
         
         return path_list
 
     def walk_tree(self):
-        if os.getcwd() != self.source:
-            os.chdir(self.source)
-        
         self.tree.update({
-            'source': self.__walk_path()
+            'source': self.__walk_path(self.source)
         })
-
-        if os.getcwd() != self.curr_dir:
-            os.chdir(self.curr_dir)
