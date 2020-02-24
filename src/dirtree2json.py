@@ -1,6 +1,4 @@
 import os
-import json
-import argparse
 from dataclasses import dataclass
 
 
@@ -12,7 +10,6 @@ class Tree:
 
     def __init__(self, source: str = os.getcwd()):
         if type(source) == str:
-            print(source)
             if os.path.isdir(source):
                 self.source = source
                 self.tree = {}
