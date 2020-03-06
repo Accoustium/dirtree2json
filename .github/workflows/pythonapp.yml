@@ -26,7 +26,8 @@ jobs:
     - name: Lint with black
       run: |
         pip install black
-        black *
+        black src/*
+        black tests/*
     - name: Test with pytest
       run: |
         pip install pytest
