@@ -9,6 +9,9 @@ class Tree:
     depth: int
 
     def __init__(self, source: str = os.getcwd(), depth: int=1):
+        if depth < 0:
+            raise ValueError('Depth cannot be a negative value.')
+
         if type(source) == str:
             if os.path.isdir(source):
                 self.source = source
@@ -16,9 +19,9 @@ class Tree:
                 self.depth = depth
                 self.walk_tree()
             else:
-                raise SyntaxError
+                raise SyntaxError('Source is not a directory.')
         else:
-            raise TypeError
+            raise TypeError('Source must be in a string format.')
 
     def __repr__(self):
         return f"Tree(source={self.source})"
