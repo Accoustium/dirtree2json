@@ -27,9 +27,8 @@ jobs:
       run: |
         pip install black
         black src/*
-        black test/*
-# Depricated until I create tests
-#     - name: Test with pytest
-#       run: |
-#         pip install pytest
-#         pytest
+        black test/test_*.py
+    - name: Test with pytest
+      run: |
+        pip install pytest
+        pytest
