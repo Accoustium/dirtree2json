@@ -4,7 +4,7 @@ import pytest
 
 mypath = os.path.join(os.path.split(__file__)[:-1][0])
 sys.path.append(os.path.join(mypath, '..'))
-from src import Tree
+from dirtree2json import Tree
 
 
 @pytest.fixture
