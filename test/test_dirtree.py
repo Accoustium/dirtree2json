@@ -2,8 +2,8 @@ import os
 import sys
 import pytest
 
-mypath = os.path.join(os.path.split(__file__)[:-1][0])
-sys.path.append(os.path.join(mypath, '..'))
+my_path = os.path.join(os.path.dirname(__file__))
+sys.path.append(os.path.join(my_path, ".."))
 from dirtree2json import Tree
 
 
