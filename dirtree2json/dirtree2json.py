@@ -53,3 +53,6 @@ class Tree:
 
     def walk_tree(self):
         self.tree.update({"source": self.__walk_path(self.source, length=0)})
+
+
+# TODO: write a function to present the tree to user when called via -m
