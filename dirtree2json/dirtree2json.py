@@ -9,6 +9,7 @@ class Tree:
     depth: int
     directories: int
     files: int
+    display: str
 
     def __init__(self, source: str = os.getcwd(), depth: int = 1):
         if depth < 0:
@@ -21,7 +22,12 @@ class Tree:
                 self.depth = depth
                 self.directories = 0
                 self.files = 0
+                self.display = f"{source}\n"
                 self.walk_tree()
+                self.display += (
+                    f"\ndirectories = {self.directories}"
+                    f" files = {self.files}"
+                )
             else:
                 raise SyntaxError("Source is not a directory.")
         else:
@@ -33,8 +39,9 @@ class Tree:
     def __str__(self):
         return f"{self.tree}"
 
-    def __walk_path(self, source_path: str, length: int) -> list:
+    def __walk_path(self, source_path: str, length: int, indent: int = 1) -> list:
         length += 1
+        filler = '\t'
         try:
             path_list = os.listdir(source_path)
         except PermissionError:
@@ -43,6 +50,7 @@ class Tree:
         self.files += len(path_list)
 
         for index, file_dir in enumerate(path_list):
+            self.display += f"{filler * indent}{file_dir}\n"
             if os.path.isdir(os.path.join(source_path, file_dir)):
 
                 self.directories += 1
@@ -52,7 +60,9 @@ class Tree:
                     path_list[index] = {
                         file_dir: [
                             self.__walk_path(
-                                os.path.join(source_path, file_dir), length + 1
+                                os.path.join(source_path, file_dir),
+                                length + 1,
+                                indent + 1,
                             )
                         ]
                     }
