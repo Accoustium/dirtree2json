@@ -1,5 +1,4 @@
 import os
-import sys
 from dataclasses import dataclass
 
 
@@ -8,6 +7,8 @@ class Tree:
     tree: dict
     source: str
     depth: int
+    directories: int
+    files: int
 
     def __init__(self, source: str = os.getcwd(), depth: int = 1):
         if depth < 0:
@@ -18,6 +19,8 @@ class Tree:
                 self.source = source
                 self.tree = {}
                 self.depth = depth
+                self.directories = 0
+                self.files = 0
                 self.walk_tree()
             else:
                 raise SyntaxError("Source is not a directory.")
@@ -36,8 +39,15 @@ class Tree:
             path_list = os.listdir(source_path)
         except PermissionError:
             return ["Permission Denied.  Please verify permissions."]
+
+        self.files += len(path_list)
+
         for index, file_dir in enumerate(path_list):
             if os.path.isdir(os.path.join(source_path, file_dir)):
+
+                self.directories += 1
+                self.files -= 1
+
                 if length != self.depth:
                     path_list[index] = {
                         file_dir: [

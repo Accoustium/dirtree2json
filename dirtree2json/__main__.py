@@ -9,6 +9,7 @@ args = parser.parse_args()
 if not args.depth:
     args.depth = 1
 
+
 if not args.src_dir:
     print(dirtree2json().Tree(depth=args.depth))
 else:
