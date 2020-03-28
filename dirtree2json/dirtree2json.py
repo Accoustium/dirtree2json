@@ -41,7 +41,7 @@ class Tree:
 
     def __walk_path(self, source_path: str, length: int, indent: int = 1) -> list:
         length += 1
-        filler = '\t'
+        filler = '  '
         try:
             path_list = os.listdir(source_path)
         except PermissionError:
