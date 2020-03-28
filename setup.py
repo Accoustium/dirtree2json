@@ -3,11 +3,8 @@ import setuptools
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-
-
-
 setuptools.setup(
-    name="dirtree2json-t6580",
+    name="dirtree2json",
     version="0.0.1",
     author="Tim Pogue",
     author_email="t.pogue.python@gmail.com",
