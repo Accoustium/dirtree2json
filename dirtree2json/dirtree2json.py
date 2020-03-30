@@ -10,8 +10,9 @@ class Tree:
     directories: int
     files: int
     display: str
+    filler: str
 
-    def __init__(self, source: str = os.getcwd(), depth: int = 1):
+    def __init__(self, source: str = os.getcwd(), depth: int = 1, filler: str = "  "):
         if depth < 0:
             raise ValueError("Depth cannot be a negative value.")
 
@@ -22,6 +23,7 @@ class Tree:
                 self.depth = depth
                 self.directories = 0
                 self.files = 0
+                self.filler = filler
                 self.display = f"{source}\n"
                 self.walk_tree()
                 self.display += (
@@ -39,25 +41,27 @@ class Tree:
     def __str__(self):
         return f"{self.tree}"
 
+    def __update_directories(self):
+        self.directories += 1
+        self.files -= 1
+
     def __walk_path(self, source_path: str, length: int, indent: int = 1) -> list:
         length += 1
-        filler = '  '
+
         try:
             path_list = os.listdir(source_path)
+            self.files += len(path_list)
         except PermissionError:
             return ["Permission Denied.  Please verify permissions."]
 
-        self.files += len(path_list)
+        for index_, file_dir in enumerate(path_list):
+            self.display += f"{self.filler * indent}{file_dir}\n"
 
-        for index, file_dir in enumerate(path_list):
-            self.display += f"{filler * indent}{file_dir}\n"
             if os.path.isdir(os.path.join(source_path, file_dir)):
-
-                self.directories += 1
-                self.files -= 1
+                self.__update_directories()
 
                 if length != self.depth:
-                    path_list[index] = {
+                    path_list[index_] = {
                         file_dir: [
                             self.__walk_path(
                                 os.path.join(source_path, file_dir),
@@ -67,7 +71,7 @@ class Tree:
                         ]
                     }
                 else:
-                    path_list[index] = {file_dir: []}
+                    path_list[index_] = {file_dir: []}
 
         return path_list
 
