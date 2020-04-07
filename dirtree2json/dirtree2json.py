@@ -1,4 +1,5 @@
 import os
+from .filetype import File, Directory, FileTypeError
 from dataclasses import dataclass
 
 
@@ -41,9 +42,13 @@ class Tree:
     def __str__(self):
         return f"{self.tree}"
 
-    def __update_directories(self):
-        self.directories += 1
-        self.files -= 1
+    def __build_file_type(self, file_test):
+        try:
+            return File(file_test)
+        except FileTypeError:
+            self.directories += 1
+            self.files -= 1
+            return Directory(file_test)
 
     def __walk_path(self, source_path: str, length: int, indent: int = 1) -> list:
         length += 1
@@ -56,13 +61,12 @@ class Tree:
 
         for index_, file_dir in enumerate(path_list):
             self.display += f"{self.filler * indent}{file_dir}\n"
+            path_list[index_] = self.__build_file_type(file_dir)
 
-            if os.path.isdir(os.path.join(source_path, file_dir)):
-                self.__update_directories()
-
+            if type(path_list[index_]) == Directory:
                 if length != self.depth:
                     path_list[index_] = {
-                        file_dir: [
+                        path_list[index_]: [
                             self.__walk_path(
                                 os.path.join(source_path, file_dir),
                                 length + 1,
@@ -71,7 +75,7 @@ class Tree:
                         ]
                     }
                 else:
-                    path_list[index_] = {file_dir: []}
+                    path_list[index_] = {path_list[index_]: []}
 
         return path_list
 
