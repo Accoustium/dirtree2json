@@ -13,6 +13,9 @@ class FileType(ABC):
     def __str__(self):
         return NotImplementedError
 
+    def __hash__(self):
+        return NotImplementedError
+
     def __setattr__(self, name, value):
         raise AttributeError(f"Can't set attribute {name}.")
 
@@ -40,10 +43,13 @@ class File(FileType):
             raise FileTypeError("Attempted to assign non-file to file object.")
 
     def __repr__(self):
-        return self.contents
+        return f"File({self.contents})"
 
     def __str__(self):
         return self.contents
+
+    def __hash__(self):
+        return hash(repr(self))
 
     def __setattr__(self, name, value):
         super().__setattr__(name, value)
@@ -67,10 +73,13 @@ class Directory(FileType):
             raise FileTypeError("Attempted to assign non-directory to directory object.")
 
     def __repr__(self):
-        return self.contents
+        return f"Directory({self.contents})"
 
     def __str__(self):
         return self.contents
+
+    def __hash__(self):
+        return hash(repr(self))
 
     def __setattr__(self, name, value):
         super().__setattr__(name, value)
