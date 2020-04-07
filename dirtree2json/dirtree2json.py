@@ -42,7 +42,7 @@ class Tree:
     def __str__(self):
         return f"{self.tree}"
 
-    def __build_file_type(self, file_test):
+    def __convert_file_type(self, file_test):
         try:
             return File(file_test)
         except FileTypeError:
@@ -61,19 +61,19 @@ class Tree:
 
         for index_, file_dir in enumerate(path_list):
             self.display += f"{self.filler * indent}{file_dir}\n"
-            test_path = self.__build_file_type(os.path.join(source_path, file_dir))
+            test_path = self.__convert_file_type(os.path.join(source_path, file_dir))
 
             if type(test_path) == Directory:
                 if length != self.depth:
                     path_list[index_] = {
-                        file_dir: self.__walk_path(
+                        path_list[index_]: self.__walk_path(
                             os.path.join(source_path, file_dir),
                             length + 1,
                             indent + 1,
                         )
                     }
                 else:
-                    path_list[index_] = {file_dir: []}
+                    path_list[index_] = {path_list[index_]: []}
 
         return path_list
 

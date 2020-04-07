@@ -1,5 +1,5 @@
 import os
-import pathlib
+import time
 from abc import ABC
 
 
@@ -28,12 +28,19 @@ class FileTypeError(Exception):
 class File(FileType):
     def __init__(self, obj):
         if os.path.isfile(obj):
-            self.__dict__.update({'_contents': os.path.split(obj)[-1]})
+            self.__dict__.update(
+                {
+                    '_contents': os.path.split(obj)[-1],
+                    '_file_path': obj,
+                    '_file_created': time.ctime(os.path.getctime(obj)),
+                    '_file_modified': time.ctime(os.path.getmtime(obj)),
+                }
+            )
         else:
             raise FileTypeError("Attempted to assign non-file to file object.")
 
     def __repr__(self):
-        return f"File('{self.contents}')"
+        return self.contents
 
     def __str__(self):
         return self.contents
@@ -48,12 +55,19 @@ class File(FileType):
 class Directory(FileType):
     def __init__(self, obj):
         if os.path.isdir(obj):
-            self.__dict__.update({'_contents': os.path.split(obj)[-1]})
+            self.__dict__.update(
+                {
+                    '_contents': os.path.split(obj)[-1],
+                    '_file_path': obj,
+                    '_file_created': time.ctime(os.path.getctime(obj)),
+                    '_file_modified': time.ctime(os.path.getmtime(obj)),
+                }
+            )
         else:
             raise FileTypeError("Attempted to assign non-directory to directory object.")
 
     def __repr__(self):
-        return f"Directory('{self.contents}')"
+        return self.contents
 
     def __str__(self):
         return self.contents
