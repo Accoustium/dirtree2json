@@ -8,13 +8,13 @@ class FileType(ABC):
         self.__dict__.update({'_contents': obj})
 
     def __repr__(self):
-        return NotImplementedError
+        return NotImplemented
 
     def __str__(self):
-        return NotImplementedError
+        return NotImplemented
 
     def __hash__(self):
-        return NotImplementedError
+        return NotImplemented
 
     def __setattr__(self, name, value):
         raise AttributeError(f"Can't set attribute {name}.")
@@ -46,7 +46,7 @@ class File(FileType):
         return f"File({self.contents})"
 
     def __str__(self):
-        return self.contents
+        return self
 
     def __hash__(self):
         return hash(repr(self))
@@ -76,7 +76,7 @@ class Directory(FileType):
         return f"Directory({self.contents})"
 
     def __str__(self):
-        return self.contents
+        return self
 
     def __hash__(self):
         return hash(repr(self))

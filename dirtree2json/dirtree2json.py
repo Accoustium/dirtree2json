@@ -1,6 +1,6 @@
 import os
 from .filetype import File, Directory, FileTypeError
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 
 @dataclass()
@@ -50,6 +50,9 @@ class Tree:
             self.files -= 1
             return Directory(file_test)
 
+    def __build_print_display(self, file_dir, indent):
+        self.display += f"{self.filler * indent}{file_dir}\n"
+
     def __walk_path(self, source_path: str, length: int, indent: int = 1) -> list:
         length += 1
 
@@ -60,20 +63,20 @@ class Tree:
             return ["Permission Denied.  Please verify permissions."]
 
         for index_, file_dir in enumerate(path_list):
-            self.display += f"{self.filler * indent}{file_dir}\n"
+            self.__build_print_display(file_dir, indent)
             test_path = self.__convert_file_type(os.path.join(source_path, file_dir))
 
             if type(test_path) == Directory:
                 if length != self.depth:
                     path_list[index_] = {
-                        path_list[index_]: self.__walk_path(
+                        test_path: self.__walk_path(
                             os.path.join(source_path, file_dir),
                             length + 1,
                             indent + 1,
                         )
                     }
                 else:
-                    path_list[index_] = {path_list[index_]: []}
+                    path_list[index_] = {test_path: []}
 
         return path_list
 
