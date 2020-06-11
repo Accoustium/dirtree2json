@@ -34,7 +34,7 @@ class File(FileType):
             self.__dict__.update(
                 {
                     '_contents': os.path.split(obj)[-1],
-                    '_file_path': obj,
+                    '_file_path': os.path.abspath(obj),
                     '_file_created': time.ctime(os.path.getctime(obj)),
                     '_file_modified': time.ctime(os.path.getmtime(obj)),
                 }

@@ -1,21 +1,20 @@
 import os
 from .filetype import File, Directory, FileTypeError
-from dataclasses import dataclass, field
 
 
-@dataclass()
 class Tree:
-    tree: dict
-    source: str
-    depth: int
-    directories: int
-    files: int
-    display: str
-    filler: str
-
     def __init__(self, source: str = os.getcwd(), depth: int = 1, filler: str = "  "):
-        if depth < 0:
-            raise ValueError("Depth cannot be a negative value.")
+        """
+        Create a file path tree json object.  Will have both a display option for printing
+        in a clean format, and a json object to use in programs.
+
+        :param source: Source directory to start the tree traversal.
+        :param depth: How far down you wish to look into the directories.  Setting to 0 will
+            continue recursively until all directories are found, with a limit of 1000 depth.  (default = 1)
+        :param filler:
+        """
+        if not 0 <= depth < 1000:
+            raise ValueError("Depth cannot be a negative value or greater than 999.")
 
         if type(source) == str:
             if os.path.isdir(source):
@@ -32,7 +31,7 @@ class Tree:
                     f" files = {self.files}"
                 )
             else:
-                raise SyntaxError("Source is not a directory.")
+                raise FileTypeError("Source is not a directory.")
         else:
             raise TypeError("Source must be in a string format.")
 
@@ -54,6 +53,9 @@ class Tree:
         self.display += f"{self.filler * indent}{file_dir}\n"
 
     def __walk_path(self, source_path: str, length: int, indent: int = 1) -> list:
+        if length == 999:
+            return
+
         length += 1
 
         try:
@@ -81,4 +83,9 @@ class Tree:
         return path_list
 
     def walk_tree(self):
+        """
+        Walk through the whole directory tree of the provided source directory.
+
+        :return:
+        """
         self.tree.update({"source": self.__walk_path(self.source, length=0)})
