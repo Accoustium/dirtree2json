@@ -24,10 +24,7 @@ class Tree:
         self.filler = filler
         self.display = f"{source}\n"
         self.walk_tree()
-        self.display += (
-            f"\ndirectories = {self.directories}"
-            f" files = {self.files}"
-        )
+        self.display += f"\ndirectories = {self.directories}" f" files = {self.files}"
 
     def __repr__(self):
         return f"Tree(source={self.source})"
@@ -58,11 +55,13 @@ class Tree:
             except FileTypeError:
                 path_list[index_] = {
                     file_dir: self.__walk_path(
-                        os.path.join(source_path, file_dir),
-                        length + 1,
-                        indent + 1,
-                    ) if length != self.depth else []
+                        os.path.join(source_path, file_dir), length + 1, indent + 1,
+                    )
+                    if length != self.depth
+                    else []
                 }
+                self.directories += 1
+                self.files -= 1
 
         return path_list
 

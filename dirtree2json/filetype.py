@@ -5,7 +5,7 @@ from abc import ABC
 
 class FileType(ABC):
     def __init__(self, obj):
-        self.__dict__.update({'_contents': obj})
+        self.__dict__.update({"_contents": obj})
 
     def __repr__(self):
         return NotImplemented
@@ -20,7 +20,7 @@ class FileType(ABC):
         raise AttributeError(f"Can't set attribute {name}.")
 
     def __getattr__(self, name):
-        private_name = '_' + name
+        private_name = "_" + name
         return getattr(self, private_name)
 
 
@@ -33,10 +33,10 @@ class File(FileType):
         if os.path.isfile(obj):
             self.__dict__.update(
                 {
-                    '_contents': os.path.split(obj)[-1],
-                    '_file_path': os.path.abspath(obj),
-                    '_file_created': time.ctime(os.path.getctime(obj)),
-                    '_file_modified': time.ctime(os.path.getmtime(obj)),
+                    "_contents": os.path.split(obj)[-1],
+                    "_file_path": os.path.abspath(obj),
+                    "_file_created": time.ctime(os.path.getctime(obj)),
+                    "_file_modified": time.ctime(os.path.getmtime(obj)),
                 }
             )
         else:
@@ -63,14 +63,16 @@ class Directory(FileType):
         if os.path.isdir(obj):
             self.__dict__.update(
                 {
-                    '_contents': os.path.split(obj)[-1],
-                    '_file_path': os.path.abspath(obj),
-                    '_file_created': time.ctime(os.path.getctime(obj)),
-                    '_file_modified': time.ctime(os.path.getmtime(obj)),
+                    "_contents": os.path.split(obj)[-1],
+                    "_file_path": os.path.abspath(obj),
+                    "_file_created": time.ctime(os.path.getctime(obj)),
+                    "_file_modified": time.ctime(os.path.getmtime(obj)),
                 }
             )
         else:
-            raise FileTypeError("Attempted to assign non-directory to directory object.")
+            raise FileTypeError(
+                "Attempted to assign non-directory to directory object."
+            )
 
     def __repr__(self):
         return f"Directory({self.contents})"
