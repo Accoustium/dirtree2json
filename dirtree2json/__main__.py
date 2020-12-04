@@ -2,9 +2,9 @@ import argparse
 from dirtree2json import Tree
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--src_dir', type=str)
-parser.add_argument('-d', '--depth', type=int)
-parser.add_argument('-f', '--filler', type=str)
+parser.add_argument("--src_dir", type=str)
+parser.add_argument("-d", "--depth", type=int)
+parser.add_argument("-f", "--filler", type=str)
 args = parser.parse_args()
 
 
