@@ -70,6 +70,9 @@ docs/_build/
 # PyBuilder
 target/
 
+# Pycharm
+.idea
+
 # pyenv
 .python-version
 
