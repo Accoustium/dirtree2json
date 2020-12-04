@@ -1,4 +1,22 @@
+[tool.black]
+line-length = 88
+include = "\.pyi?$"
+exclude = """
+(
+    /(
+    |   \.github
+    |   \.git
+    |   \.pytest_cache
+    |   venv/
+"""
+
 [pytest.tool.ini_options]
 addopts = "-vv -ra -q"
 testpaths = ["test"]
 pythonfiles = ["test*_.py"]
+
+[tool.coverage.run]
+
+
+[tool.coverage.path]
+    "dirtree2json/"
