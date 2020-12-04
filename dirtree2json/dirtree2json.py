@@ -33,9 +33,22 @@ class Tree:
         return f"{self.tree}"
 
     def __build_print_display(self, file_dir, indent):
+        """
+        Building tool for the displaying the file tree.
+
+        :param file_dir: File or file directory to to be added to the tree display.
+        :param indent: Internal indent for how deep into the file should be located.
+        """
         self.display += f"{self.filler * indent}{file_dir}\n"
 
     def __walk_path(self, source_path: str, length: int, indent: int = 1) -> list:
+        """
+        Walk the directories to find the current path.
+
+        :param source_path: Current absolute path for current directory to look at.
+        :param length: How deep into the directories you with to traverse.
+        :param indent: Internal indention for the displaying of the tree.
+        """
         if length == 999:
             return
 
@@ -68,7 +81,5 @@ class Tree:
     def walk_tree(self):
         """
         Walk through the whole directory tree of the provided source directory.
-
-        :return:
         """
         self.tree.update({self.source: self.__walk_path(self.source, length=0)})
