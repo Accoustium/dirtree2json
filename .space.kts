@@ -18,7 +18,7 @@ job("Hello World!") {
     }
 }
 
-job("Hello World!") {
+job("Hello World! but more stuff.") {
     container("hello-world")
     container("hello-world")
     container("hello-world")
