@@ -7,7 +7,7 @@
 job("Hello World!") {
     startOn {
         gitPush { enabled = true }
-        schedule { cron("0 8 * * * *") }
+//        schedule { cron("0 8 * * * *") }
     }
 
     container("hello-world") {
